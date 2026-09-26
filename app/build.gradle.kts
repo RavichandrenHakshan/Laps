@@ -4,16 +4,11 @@ plugins {
 
 android {
     namespace = "com.example.laps"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
-
+    compileSdk = 37
     defaultConfig {
         applicationId = "com.example.laps"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
 
