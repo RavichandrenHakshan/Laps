@@ -54,4 +54,22 @@ public class MainActivity extends AppCompatActivity {
             bottomNav.setSelectedItemId(R.id.nav_home);
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        // Handle action bar item clicks here.
+        if (item.getItemId() == R.id.action_settings) {
+            android.content.Intent intent = new android.content.Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

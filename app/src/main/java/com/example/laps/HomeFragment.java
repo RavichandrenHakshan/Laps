@@ -1,16 +1,27 @@
 package com.example.laps;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.laps.api.ApiClient;
+import com.example.laps.api.ApiService;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
     
@@ -27,35 +38,39 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         
         videoList = new ArrayList<>();
-        // Add dummy videos
-        videoList.add(new Video(
-            "Big Buck Bunny",
-            "Blender Foundation",
-            "10M",
-            "10 years ago",
-            "https://storage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg",
-            "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-        ));
-        videoList.add(new Video(
-            "Elephant Dream",
-            "Blender Foundation",
-            "2M",
-            "5 years ago",
-            "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ElephantsDream.jpg",
-            "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
-        ));
-        videoList.add(new Video(
-            "For Bigger Blazes",
-            "Google",
-            "1.5M",
-            "3 years ago",
-            "https://storage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerBlazes.jpg",
-            "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
-        ));
-        
         adapter = new VideoAdapter(getContext(), videoList);
         recyclerView.setAdapter(adapter);
         
+        fetchVideos();
+        
         return view;
+    }
+
+    private void fetchVideos() {
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        Call<List<Video>> call = apiService.getVideos();
+
+        call.enqueue(new Callback<List<Video>>() {
+            @Override
+            public void onResponse(Call<List<Video>> call, Response<List<Video>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    videoList.clear();
+                    videoList.addAll(response.body());
+                    adapter.notifyDataSetChanged();
+                } else {
+                    if (getContext() != null) {
+                        Toast.makeText(getContext(), "Failed to load videos", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Video>> call, Throwable t) {
+                Log.e("HomeFragment", "API Error: " + t.getMessage());
+                if (getContext() != null) {
+                    Toast.makeText(getContext(), "Network error. Make sure WAMP is running.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

@@ -44,6 +44,9 @@ dependencies {
     // Retrofit
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
+    
+    // Preferences
+    implementation(libs.preference)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.espresso.core)

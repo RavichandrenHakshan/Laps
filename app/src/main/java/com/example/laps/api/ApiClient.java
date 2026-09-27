@@ -5,9 +5,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    // Note: Use "10.0.2.2" to access localhost (WAMP) from the Android emulator.
-    // If you are using a physical device, use your computer's local IP address (e.g., "192.168.1.X").
-    private static final String BASE_URL = "http://10.0.2.2/"; 
+    // We are using ADB reverse port forwarding, so we can use localhost!
+    private static final String BASE_URL = "http://127.0.0.1/"; 
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient() {

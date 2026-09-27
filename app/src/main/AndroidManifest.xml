@@ -28,6 +28,10 @@
         <activity android:name=".PlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
             
+        <activity 
+            android:name=".SettingsActivity"
+            android:label="Settings" />
+            
     </application>
 
 </manifest>

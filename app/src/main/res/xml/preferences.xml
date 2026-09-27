@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="General">
+        <SwitchPreferenceCompat
+            app:key="notifications"
+            app:title="Enable Notifications"
+            app:defaultValue="true" />
+
+        <ListPreference
+            app:key="video_quality"
+            app:title="Default Video Quality"
+            app:entries="@array/quality_entries"
+            app:entryValues="@array/quality_values"
+            app:defaultValue="auto"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Account">
+        <Preference
+            app:key="logout"
+            app:title="Log Out"
+            app:summary="Sign out of your account" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
